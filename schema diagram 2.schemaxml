@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">fantays</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="payment accout" view="colnames">
+<left>642</left>
+<top>15</top>
+<width>133</width>
+<height>127</height>
+<sql_create_table>CREATE TABLE `payment accout` (
+  `a-name` varchar(15) DEFAULT NULL,
+  `a-no` varchar(15) DEFAULT NULL,
+  `a-creditCardNo` varchar(15) DEFAULT NULL,
+  `a-id` int(15) NOT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`a-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `payment@0020accout_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="photos" view="colnames">
+<left>145</left>
+<top>41</top>
+<width>123</width>
+<height>151</height>
+<sql_create_table>CREATE TABLE `photos` (
+  `p-id` int(15) NOT NULL,
+  `p-name` varchar(15) DEFAULT NULL,
+  `p-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`p-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="photoslike" view="colnames">
+<left>77</left>
+<top>357</top>
+<width>157</width>
+<height>134</height>
+<sql_create_table>CREATE TABLE `photoslike` (
+  `like-id` int(15) NOT NULL,
+  `like-time` timestamp NULL DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `p-id` int(15) DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`like-id`),
+  KEY `p-id` (`p-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `photoslike_ibfk_1` FOREIGN KEY (`p-id`) REFERENCES `photos` (`p-id`),
+  CONSTRAINT `photoslike_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="photos-photoslike" view="colnames">
+<left>-1</left>
+<top>148</top>
+<width>107</width>
+<height>144</height>
+<sql_create_table>CREATE TABLE `photos-photoslike` (
+  `p-id` int(15) DEFAULT NULL,
+  `like-id` int(15) DEFAULT NULL,
+  `like-time` timestamp NULL DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `prim-g` int(15) NOT NULL,
+  PRIMARY KEY (`prim-g`),
+  KEY `p-id` (`p-id`),
+  KEY `like-id` (`like-id`),
+  CONSTRAINT `photos@002dphotoslike_ibfk_1` FOREIGN KEY (`p-id`) REFERENCES `photos` (`p-id`),
+  CONSTRAINT `photos@002dphotoslike_ibfk_2` FOREIGN KEY (`like-id`) REFERENCES `photoslike` (`like-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user-account" view="colnames">
+<left>502</left>
+<top>2</top>
+<width>125</width>
+<height>125</height>
+<sql_create_table>CREATE TABLE `user-account` (
+  `a-no` char(15) DEFAULT NULL,
+  `a-name` varchar(15) DEFAULT NULL,
+  `a-crditCardNo` varchar(15) DEFAULT NULL,
+  `a-id` int(15) DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  `prim-a` int(15) DEFAULT NULL,
+  KEY `a-id` (`a-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `user@002daccount_ibfk_1` FOREIGN KEY (`a-id`) REFERENCES `payment accout` (`a-id`),
+  CONSTRAINT `user@002daccount_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user-photolikes" view="colnames">
+<left>281</left>
+<top>263</top>
+<width>136</width>
+<height>104</height>
+<sql_create_table>CREATE TABLE `user-photolikes` (
+  `like-id` int(15) DEFAULT NULL,
+  `like-time` time DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  `prim-d` int(15) NOT NULL,
+  PRIMARY KEY (`prim-d`),
+  KEY `u-id` (`u-id`),
+  KEY `like-id` (`like-id`),
+  CONSTRAINT `user@002dphotolikes_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`),
+  CONSTRAINT `user@002dphotolikes_ibfk_2` FOREIGN KEY (`like-id`) REFERENCES `photoslike` (`like-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user-photos" view="colnames">
+<left>290</left>
+<top>47</top>
+<width>91</width>
+<height>111</height>
+<sql_create_table>CREATE TABLE `user-photos` (
+  `p-id` int(15) DEFAULT NULL,
+  `p-name` varchar(15) DEFAULT NULL,
+  `p-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  `prim-b` int(15) NOT NULL,
+  PRIMARY KEY (`prim-b`),
+  KEY `p-id` (`p-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `user@002dphotos_ibfk_1` FOREIGN KEY (`p-id`) REFERENCES `photos` (`p-id`),
+  CONSTRAINT `user@002dphotos_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="users" view="colnames">
+<left>650</left>
+<top>264</top>
+<width>158</width>
+<height>130</height>
+<sql_create_table>CREATE TABLE `users` (
+  `u-id` int(15) NOT NULL,
+  `u-name` char(15) DEFAULT NULL,
+  `u-pass` varchar(15) DEFAULT NULL,
+  `u-dob` date DEFAULT NULL,
+  `u-cnic` varchar(15) DEFAULT NULL,
+  `u-phone` int(15) DEFAULT NULL,
+  `u-fullname` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user-vedio" view="colnames">
+<left>468</left>
+<top>409</top>
+<width>156</width>
+<height>110</height>
+<sql_create_table>CREATE TABLE `user-vedio` (
+  `v-id` int(15) DEFAULT NULL,
+  `v-name` varchar(15) DEFAULT NULL,
+  `v-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  `prim-c` int(15) NOT NULL,
+  PRIMARY KEY (`prim-c`),
+  KEY `v-id` (`v-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `user@002dvedio_ibfk_1` FOREIGN KEY (`v-id`) REFERENCES `vedios` (`v-id`),
+  CONSTRAINT `user@002dvedio_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user-vediolikes" view="colnames">
+<left>813</left>
+<top>19</top>
+<width>116</width>
+<height>108</height>
+<sql_create_table>CREATE TABLE `user-vediolikes` (
+  `like-id` int(15) DEFAULT NULL,
+  `like-time` timestamp NULL DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  `prim-e` int(15) NOT NULL,
+  PRIMARY KEY (`prim-e`),
+  KEY `u-id` (`u-id`),
+  KEY `like-id` (`like-id`),
+  CONSTRAINT `user@002dvediolikes_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`),
+  CONSTRAINT `user@002dvediolikes_ibfk_2` FOREIGN KEY (`like-id`) REFERENCES `vedioslikes` (`like-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="vedios" view="colnames">
+<left>847</left>
+<top>415</top>
+<width>181</width>
+<height>98</height>
+<sql_create_table>CREATE TABLE `vedios` (
+  `v-id` int(15) NOT NULL,
+  `v-name` varchar(15) DEFAULT NULL,
+  `v-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`v-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `vedios_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="vedioslikes" view="colnames">
+<left>882</left>
+<top>224</top>
+<width>125</width>
+<height>126</height>
+<sql_create_table>CREATE TABLE `vedioslikes` (
+  `like-id` int(15) NOT NULL,
+  `like-time` timestamp NULL DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `v-id` int(15) DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`like-id`),
+  KEY `u-id` (`u-id`),
+  KEY `v-id` (`v-id`),
+  CONSTRAINT `vedioslikes_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`),
+  CONSTRAINT `vedioslikes_ibfk_3` FOREIGN KEY (`v-id`) REFERENCES `vedios` (`v-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="vedio-vediolikes" view="colnames">
+<left>977</left>
+<top>19</top>
+<width>96</width>
+<height>95</height>
+<sql_create_table>CREATE TABLE `vedio-vediolikes` (
+  `v-id` int(15) DEFAULT NULL,
+  `like-id` int(15) DEFAULT NULL,
+  `like-time` timestamp NULL DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `prim-f` int(15) NOT NULL,
+  PRIMARY KEY (`prim-f`),
+  KEY `v-id` (`v-id`),
+  KEY `vedio@002dvediolikes_ibfk_2` (`like-id`),
+  CONSTRAINT `vedio@002dvediolikes_ibfk_1` FOREIGN KEY (`v-id`) REFERENCES `vedios` (`v-id`),
+  CONSTRAINT `vedio@002dvediolikes_ibfk_2` FOREIGN KEY (`like-id`) REFERENCES `vedioslikes` (`like-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

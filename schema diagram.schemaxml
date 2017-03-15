@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">fantays</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="users" view="colnames">
+<left>391</left>
+<top>193</top>
+<width>153</width>
+<height>199</height>
+<sql_create_table>CREATE TABLE `users` (
+  `u-id` int(15) NOT NULL,
+  `u-name` char(15) DEFAULT NULL,
+  `u-pass` varchar(15) DEFAULT NULL,
+  `u-dob` date DEFAULT NULL,
+  `u-cnic` varchar(15) DEFAULT NULL,
+  `u-phone` int(15) DEFAULT NULL,
+  `u-fullname` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="photos" view="colnames">
+<left>35</left>
+<top>140</top>
+<width>138</width>
+<height>136</height>
+<sql_create_table>CREATE TABLE `photos` (
+  `p-id` int(15) NOT NULL,
+  `p-name` varchar(15) DEFAULT NULL,
+  `p-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`p-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="vedios" view="colnames">
+<left>805</left>
+<top>144</top>
+<width>133</width>
+<height>124</height>
+<sql_create_table>CREATE TABLE `vedios` (
+  `v-id` int(15) NOT NULL,
+  `v-name` varchar(15) DEFAULT NULL,
+  `v-postdate` date DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`v-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `vedios_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="vedioslikes" view="colnames">
+<left>628</left>
+<top>28</top>
+<width>125</width>
+<height>125</height>
+<sql_create_table>CREATE TABLE `vedioslikes` (
+  `like-id` int(15) NOT NULL,
+  `like-time` time DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `v-id` int(15) DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`like-id`),
+  KEY `u-id` (`u-id`),
+  KEY `v-id` (`v-id`),
+  CONSTRAINT `vedioslikes_ibfk_3` FOREIGN KEY (`v-id`) REFERENCES `vedios` (`v-id`),
+  CONSTRAINT `vedioslikes_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="photoslike" view="colnames">
+<left>216</left>
+<top>31</top>
+<width>122</width>
+<height>135</height>
+<sql_create_table>CREATE TABLE `photoslike` (
+  `like-id` int(15) NOT NULL,
+  `like-time` time DEFAULT NULL,
+  `like-date` date DEFAULT NULL,
+  `p-id` int(15) DEFAULT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`like-id`),
+  KEY `p-id` (`p-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `photoslike_ibfk_2` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`),
+  CONSTRAINT `photoslike_ibfk_1` FOREIGN KEY (`p-id`) REFERENCES `photos` (`p-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="payment accout" view="colnames">
+<left>607</left>
+<top>314</top>
+<width>151</width>
+<height>157</height>
+<sql_create_table>CREATE TABLE `payment accout` (
+  `a-name` varchar(15) DEFAULT NULL,
+  `a-no` varchar(15) DEFAULT NULL,
+  `a-creditCardNo` varchar(15) DEFAULT NULL,
+  `a-id` int(15) NOT NULL,
+  `u-id` int(15) DEFAULT NULL,
+  PRIMARY KEY (`a-id`),
+  KEY `u-id` (`u-id`),
+  CONSTRAINT `payment@0020accout_ibfk_1` FOREIGN KEY (`u-id`) REFERENCES `users` (`u-id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
